@@ -1,3 +1,17 @@
+const rockButton = document.querySelector("#Rock")
+const paperButton = document.querySelector("#Paper")
+const scissorsButton = document.querySelector("#Scissors")
+const results = document.querySelector("#Results")
+const humanScore = document.querySelector("#HumanScore")
+const computerScore = document.querySelector("#ComputerScore")
+const playAgainButton = document.querySelector("#PlayAgain")
+
+let humanValue = parseInt(humanScore.textContent)
+let computerValue = parseInt(computerScore.textContent)
+let playable = true
+playAgainButton.disabled = true
+
+
 function getComputerChoice() {
 
     computerPick = Math.random()
@@ -11,102 +25,166 @@ function getComputerChoice() {
     }
 
     return(computerPick)
-}
-
-
-function getHumanChoice() {
-
-     
-    return(prompt().toLowerCase())
 
 }
 
-
-let humanScore = 0 
-let computerScore = 0
-let timesPlayed = 0
 
 function playRound(humanChoice, computerChoice) {
 
     if (humanChoice === "rock" && computerChoice === "Paper") {
-        console.log("You lose! Paper beats Rock.")
-        computerScore = (computerScore + 1)
-        timesPlayed = (timesPlayed + 1)
-        return("lose")
+
+        results.textContent = "You lose! Paper beats Rock."
+        computerValue += 1
+
+        if (computerValue === 5) {
+
+            results.textContent = "You lose the game!"
+            gameEnd()
+
+        }
         
-
+        computerScore.textContent = computerValue.toString()
+    
     } else if (humanChoice === "rock" && computerChoice === "Scissors") {
-        console.log("You win! Rock beats Scissors.")
-        humanScore = (humanScore + 1)
-        timesPlayed = (timesPlayed + 1)
-        return("win")
 
+        results.textContent = "You win! Rock beats Scissors."
+        humanValue += 1
+
+        if (humanValue === 5) {
+
+            results.textContent = "You win the game!"
+            gameEnd()
+
+        }
+
+        humanScore.textContent = humanValue.toString()
+        
     } else if (humanChoice === "rock" && computerChoice === "Rock") {
-        console.log("It's a tie!")
-        timesPlayed = (timesPlayed + 1)
-        return("tie")
+
+        results.textContent = "It's a tie!"
 
     } else if (humanChoice === "paper" && computerChoice === "Scissors") {
-        console.log("You lose! Scissors beats Paper.")
-        computerScore = (computerScore + 1)
-        timesPlayed = (timesPlayed + 1)
-        return("lose")
+
+        results.textContent = "You lose! Scissors beats Paper."
+        computerValue += 1
+
+        if (computerValue === 5) {
+
+            results.textContent = "You lose the game!"
+            gameEnd()
+
+        }
+        
+        computerScore.textContent = computerValue.toString()
+        
 
     } else if (humanChoice === "paper" && computerChoice === "Rock") {
-        console.log("You win! Paper beats Rock.")
-        humanScore = (humanScore + 1)
-        timesPlayed = (timesPlayed + 1)
-        return("win")
+
+        results.textContent = "You win! Paper beats Rock."
+        humanValue += 1
+
+        if (humanValue === 5) {
+
+            results.textContent = "You win the game!"
+            gameEnd()
+
+        }
+
+        humanScore.textContent = humanValue.toString()
 
     } else if (humanChoice === "paper" && computerChoice === "Paper") {
-        console.log("It's a tie!")
-        timesPlayed = (timesPlayed + 1)
-        return("tie")
+
+        results.textContent = "It's a tie!"
 
     } else if (humanChoice === "scissors" && computerChoice === "Rock") {
-        console.log("You lose! Rock beats Scissors.")
-        computerScore = (computerScore + 1)
-        timesPlayed = (timesPlayed + 1)
-        return("lose")
+
+        results.textContent = "You lose! Rock beats Scissors."
+        computerValue += 1
+
+        if (computerValue === 5) {
+
+            results.textContent = "You lose the game!"
+            gameEnd()
+
+        }
+        
+        computerScore.textContent = computerValue.toString()
 
     } else if (humanChoice === "scissors" && computerChoice === "Paper") {
-        console.log("You win! Scissors beats paper.")
-        humanScore = (humanScore + 1)
-        timesPlayed = (timesPlayed + 1)
-        return("win")
+
+        results.textContent = "You win! Scissors beats paper."
+        humanValue += 1
+
+        if (humanValue === 5) {
+
+            results.textContent = "You win the game!"
+            gameEnd()
+
+        }
+
+        humanScore.textContent = humanValue.toString()
 
     } else if (humanChoice === "scissors" && computerChoice === "Scissors") {
-        console.log("It's a tie!")
-        timesPlayed = (timesPlayed + 1)
-        return("tie")
+
+        results.textContent = "It's a tie!"
+        
     }
 }
 
 
+rockButton.addEventListener("click", () => {
 
-function playGame() {
+    const computerSelection = getComputerChoice()
+    const humanSelection = "rock"
+    playRound(humanSelection, computerSelection)
 
-    for (let i = 1; i <= 5; i++) {
+}) 
+    
+paperButton.addEventListener("click", () => {
 
-        const humanSelection = getHumanChoice()
-        const computerSelection =  getComputerChoice()
-        playRound(humanSelection, computerSelection)
+    const computerSelection = getComputerChoice()
+    const humanSelection = "paper"
+    playRound(humanSelection, computerSelection)
 
-    }
+})
 
-    if (humanScore > computerScore) {
+scissorsButton.addEventListener("click", () => {
 
-        console.log("You win the match!")
+    const computerSelection = getComputerChoice()
+    const humanSelection = "scissors"
+    playRound(humanSelection, computerSelection)
+    
+})
 
-    }else if (computerScore > humanScore) {
 
-        console.log("You lose the match!")
+function gameEnd() {
 
-    }else if (computerScore === humanScore) {
+    rockButton.disabled = true
+    paperButton.disabled = true
+    scissorsButton.disabled = true
+    playAgainButton.style.opacity = 1
+    playAgainButton.disabled = false
 
-        playGame()
-
-    }
 }
 
-playGame()
+
+playAgainButton.addEventListener("click", () => {
+
+    gameRestart()
+
+})
+
+function gameRestart() {
+
+    humanScore.textContent = "0"
+    computerScore.textContent = "0"
+    playAgainButton.disabled = true
+    playAgainButton.style.opacity = 0
+    rockButton.disabled = false
+    paperButton.disabled = false
+    scissorsButton.disabled = false
+    humanValue = 0
+    computerValue = 0
+    results.textContent = ""
+
+}
